@@ -3,8 +3,8 @@ import pulumi_aws as aws
 
 # Configuring AWS access key and secret key
 config = pulumi.Config()
-aws_access_key = config.require("AKIAVH34WU7JTJ3URI53")
-aws_secret_key = config.require("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")
+aws_access_key = config.require("")
+aws_secret_key = config.require("")
 
 # Set AWS credentials
 aws.config.credentials = aws.Credentials(aws_access_key=aws_access_key, aws_secret_key=aws_secret_key)
