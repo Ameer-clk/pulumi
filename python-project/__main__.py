@@ -139,7 +139,7 @@ example_ami = aws.ec2.Ami("example",
 # Declare your Launch Template resource
 my_template = aws.ec2.LaunchTemplate("mytemplate",
     name="example-launch-template",
-    image_id="ami-0f34c5ae932e6f0e4",  # Replace with the desired AMI ID
+    image_id="ami-08a52ddb321b32a8c",  # Replace with the desired AMI ID
     instance_type="t2.micro",
     vpc_security_group_ids=[example_sg.id])
 
