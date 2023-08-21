@@ -1,4 +1,4 @@
-name: awspython
+name: pulumi-python
 runtime:
   name: python
   options:
