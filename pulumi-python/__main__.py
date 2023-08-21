@@ -92,7 +92,7 @@ web_instance = aws.ec2.Instance("webInstance",
 # Create a Volume attachment for EC2 Instance
 volume_attachment = aws.ec2.VolumeAttachment("volume_attachment",
     device_name="/dev/sdf",  # Change this to the appropriate device name
-    instance_id=web_instance.id,
+    instance_id=wwebInstance.id,
     volume_id=newvolume.id
 )
 
