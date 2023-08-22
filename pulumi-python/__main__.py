@@ -26,7 +26,7 @@ public_route_table = aws.ec2.RouteTable("public_route_table",
     vpc_id=my_vpc.id,)
 
 # Creare  Private Route table 
-private_route_table = aws.ec2.RouteTable("private_rouet_table",
+private_route_table = aws.ec2.RouteTable("private_route_table",
     vpc_id=my_vpc.id,)
 
 # Create Public route table association
