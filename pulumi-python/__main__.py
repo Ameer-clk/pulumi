@@ -21,7 +21,7 @@ private_subnet = aws.ec2.Subnet("private_subnet", # Define your subnet name
 internet_gateway = aws.ec2.InternetGateway("internet_gateway", 
     vpc_id=my_vpc.id,)
 
- # Create Public Route table 
+# Create Public Route Table
 public_route_table = aws.ec2.RouteTable("public_route_table",
     vpc_id=my_vpc.id,)
 
@@ -92,9 +92,6 @@ web_instance = aws.ec2.Instance("webInstance",
 # Create a Volume attachment for EC2 Instance
 volume_attachment = aws.ec2.VolumeAttachment("volume_attachment",
     device_name="/dev/sdf",  # Change this to the appropriate device name
-    instance_id=wwebInstance.id,
+    instance_id=webInstance.id,
     volume_id=newvolume.id
 )
-
-    
-    
