@@ -87,11 +87,14 @@ web_instance = aws.ec2.Instance("webInstance",
     subnet_id=private_subnet.id,
     availability_zone='us-east-1b',
     key_name='minikube',
-    vpc_security_group_ids=[security_group.id], # Be sure to replace `my_sg` with your actual Security Group resource
+    vpc_security_group_ids=[security_group.id],
+    ebs_block_devices=[
+        aws.ec2.InstanceEbsBlockDeviceArgs(
+            device_name='/dev/xvda',
+            volume_size=8,
+            delete_on_termination=True,
+        )
+    ],
 )
-# Create a Volume attachment for EC2 Instance
-volume_attachment = aws.ec2.VolumeAttachment("volume_attachment",
-    device_name="/dev/sdf",  # Change this to the appropriate device name
-    instance_id=webInstance.id,
-    volume_id=newvolume.id
-)
+    
+  
