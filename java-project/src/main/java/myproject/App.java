@@ -19,7 +19,7 @@ public class App {
     }
 
 // Create a vpc
- Vpc my_vpc = new Vpc("My_vpc", VpcArgs.builder()        
+ Vpc my_vpc = new Vpc("My_vpc", VpcArgs.build()        
 .cidrBlock("10.1.0.0/16")
 .build());
 
@@ -45,7 +45,7 @@ Subnet private_subnet1 = new Subnet("private_subnet1", SubnetArgs.builder()
 .builder());
 
  // Create a internet gateway
-Internetgateway internet_gateway = new InternetGateway("igw", InternetGatewayArgs.builder()
+InternetGateway internet_gateway = new InternetGateway("igw", InternetGatewayArgs.builder()
 .vpcId(my_vpc.id)
 .build());
 
@@ -68,7 +68,7 @@ Routetable private_route_table = new RouteTable("privateroutetable", RouteTableA
     .build());
 
 // Create Security group
-Securitygroup secuirty_group = new SecurityGroupRule("sg", SecurityGroupRuleArgs.builder()
+SecurityGroup secuirty_group = new SecurityGroupRule("sg", SecurityGroupRuleArgs.builder()
             .type("ingress")
             .fromPort(22)
             .toPort(22)
@@ -88,7 +88,7 @@ Securitygroup secuirty_group = new SecurityGroupRule("sg", SecurityGroupRuleArgs
             .build());
 
  // Create EBS Volume and Volume Snapshot
-EBSvolume new_volume = new Volume("newvolume", VolumeArgs.builder()
+Volume new_volume = new Volume("newvolume", VolumeArgs.builder()
 .availabilityZone("us-east-1a")
 .size(8)
 .tags(Map.of("Name", "HelloWorld"))
@@ -124,14 +124,14 @@ imageId("ami-08a52ddb321b32a8c")
 .build());
 
 // Create LoadBalancer Target group
-Targetgroup test_target = new TargetGroup("testtarget", TargetGroupArgs.builder()
+TargetGroup test_target = new TargetGroup("testtarget", TargetGroupArgs.builder()
 .port(80)
 .protocol("HTTP")
 .vpcId(main.id())
 .build());
 
  // Create an Application LoadBalancer
- Loadbalancer application_balancer = new LoadBalancer("applicationbalancer", LoadBalancerArgs.builder()
+ LoadBalancer application_balancer = new LoadBalancer("applicationbalancer", LoadBalancerArgs.builder()
 .internal(true)
 .LoadBalancertype("application")
 .SecurityGroup(igw.id)
@@ -149,7 +149,7 @@ type("forward")
             .build());
 
  // Create an Autosaclling group
-Autoscalling Autosaclling_group = new Group("autoscallinggroup", GroupArgs.builder()
+AutoScalling Autosaclling_group = new Group("autoscallinggroup", GroupArgs.builder()
 .availabilityZones("us-east-1a")
 .desiredCapacity(1)
 .maxSize(1)
