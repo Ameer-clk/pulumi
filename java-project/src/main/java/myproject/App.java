@@ -73,7 +73,7 @@ Subnet private_subnet1 = new Subnet("private_subnet1", SubnetArgs.builder()
 .builder());
 
  // Create a internet gateway
-InternetGateway internet_gateway = new InternetGateway("igw", InternetGatewayArgs.builder()
+InternetGateway internet_gateway = new InternetGateway("internetgateway", InternetGatewayArgs.builder()
 .vpcId(my_vpc.id)
 .build());
 
@@ -144,9 +144,9 @@ Ami example = new Ami("example", AmiArgs.builder()
 Template new_template = new LaunchTemplate("newtemplate", LaunchTemplateArgs.builder(),
 imageId("ami-08a52ddb321b32a8c")
 .instanceType("t2.micro")
-.keyName("test")
-.availabilityZone("us-west-2a")
-.vpcSecurityGroupIds("sg.id")
+.keyName("minikube")
+.availabilityZone("us-east-1a")
+.vpcSecurityGroupIds("internetgateway.id")
 .associatePublicIpAddress(true)
 .disableApiTermination(true)
 .build());
