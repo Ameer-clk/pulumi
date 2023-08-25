@@ -113,7 +113,7 @@ Ami example = new Ami("example", AmiArgs.builder()
     .build());
 
  // Create a Launch Template
-Template new_template = new LaunchTemplate("newtemplate", LaunchTemplateArgs.builder()
+Template new_template = new LaunchTemplate("newtemplate", LaunchTemplateArgs.builder(),
 imageId("ami-08a52ddb321b32a8c")
 .instanceType("t2.micro")
 .keyName("test")
@@ -142,7 +142,7 @@ Listener Application_Listener = new Listener("applicationListener", ListenerArgs
 .LoadBalancerArn(applicationbalancer)
 .port(80)
 .protocol("HTTP")
-.defaultActions(ListenerDefaultActionArgs.builder()
+.defaultActions(ListenerDefaultActionArgs.builder(),
 type("forward")
             .targetGroupArn(testtarget.arn())
             .build())
