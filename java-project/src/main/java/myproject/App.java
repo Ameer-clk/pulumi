@@ -19,7 +19,7 @@ public class App {
     }
 
 // Create a vpc
- Vpc my_vpc = new Vpc("My_vpc", VpcArgs.build()        
+ Vpc my_vpc = new Vpc("my_vpc", VpcArgs.build()        
 .cidrBlock("10.1.0.0/16")
 .build());
 
