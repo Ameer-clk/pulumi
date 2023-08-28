@@ -1,6 +1,5 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
-import * as awsx from "@pulumi/awsx";
 
 
 // Create a Networking
@@ -262,7 +261,7 @@ const privateInstancesns = new aws.sns.Topic("privateinstancesns", {deliveryPoli
 
 // Create a SNS Topic subscription
 const topicSubscription = new aws.sns.TopicSubscription("exampleTopicSubscription", { // This will give an notification when the cpu utilization becomes heigher.
-    endpoint: test@gmail.com", // Give your desired emil address for the notification to come.
+    endpoint: "test@gmail.com",
     protocol: "email",
     topic: privateInstancesns.arn,});
 
