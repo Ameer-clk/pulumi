@@ -8,25 +8,28 @@ import * as aws from "@pulumi/aws";
 
   // Vpc,Subnet,RouteTable,Internet gateway,Nat gateway,Security Group
 
-// Create a Vpc
-const Vpc = new aws.ec2.Vpc("myvpc",{
+// Create a Public Vpc
+const Publicvpc = new aws.ec2.Vpc("publicvpc", {
     cidrBlock: "192.168.0.0/16"});
+
+const Privatevpc = new aws.ec2.Vpc("privatevpc", {
+    cidrBlock: "10.1.0.0/16"});
 
 // Create a Public Subnet
 const Publicsubnet = new aws.ec2.Subnet("publicsubnet", {
-    vpcId: aws.vpc.myvpc.id,
+    vpcId: aws.vpc.Publicvpc.id,
     AvailabilityZone: "us-east-1a",
     cidrBlock: "192.168.10.0/24",});
 
 // Create a Private subnet
 const Privatesubnet = new aws.ec2.Subnet("privatesubnet", {
-    vpcId: aws.vpc.myvpc.id,
+    vpcId: aws.vpc.Privatevpc.id,
     AvailabilityZone: "us-east-1b",
-    cidrBlock: "192.168.20.0/24",});
+    cidrBlock: "10.1.10.0/24",});
 
 // Create an Internetgateway
 const Internetgateway = new aws.ec2.InternetGateway("igw", {
-    vpcId: aws.vpc.myvpc.id,});
+    vpcId: aws.vpc.Publicvpc.id,});
 
 // Create an Elastic IP
 const elasticIp = new aws.ec2.Eip("elasticip", {
@@ -40,12 +43,12 @@ const Natgateway = new aws.ec2.NatGateway("Publicnat", {
 
 // Create  Public Route table
 const publicRouteTable = new aws.ec2.RouteTable("publicroutetable", {
-    vpcId: aws.vpc.myvpc.id,
+    vpcId: aws.vpc.Public.id,
 });
 
 // Create Private Route table
 const privateRouteTable = new aws.ec2.RouteTable("privateroutetbale", {
-    vpcId: aws.vpc.myvpc.id,});
+    vpcId: aws.vpc.Privatevpc.id,});
 
 // Create a Public Route table association
 const publicRouteTableAssociation = new aws.ec2.RouteTableAssociation("publicassociation", {
@@ -67,12 +70,12 @@ const publicRoute = new aws.Route("publicroute", {
 const pirvateroute = new aws.Route("privateroute", {
     routetableId: aws.routetable.privateroutetbale.id,
     destinationIpv6CidrBlock: "0.0.0.0/0",
-    gatewayId: aws.internetgateway.igw.id,});
+    natgatewayId: aws.natgateway.Publicnat.id,});
 
 // Create a  Public Security group
 const publicsecuirtygroup = new aws.ec2.SecurityGroup("publicsg", {
     description: "Allow Traffic for public subnet",
-    vpcId: aws.vpc.myvpc.id,
+    vpcId: aws.vpc.Publicvpc.id,
     ingress: [{
         description: "TLS from VPC",
         fromPort: 22,
@@ -95,7 +98,7 @@ const publicsecuirtygroup = new aws.ec2.SecurityGroup("publicsg", {
 // Create a Private Security group
 const privatesecuritygroup = new aws.ec2.SecurityGroup("privatesg", {
     description: "Allow Traffic for private subnet",
-    vpcId: aws.vpc.myvpc.id,
+    vpcId: aws.vpc.Pirvatevpc.id,
     ingress: [{
         description: "TLS from VPC",
         fromPort: 22,
@@ -146,7 +149,7 @@ const privateweb = new aws.ec2.Instance("privateweb", {
     vpcSecurityGroupIds: [aws.security.privatesg.id],
     subnetId: aws.subnet.privatesubnet.id,
     availabilityZone: "us-east-1b",
-    privateIp: "192.168.20.2/24",
+    privateIp: "10.1.10.0/24",
 });
 
 const privatevolume = new aws.ebs.Volume("privatevolume", { // Create an EBS Volume
@@ -192,7 +195,7 @@ const privatealarm= new aws.cloudwatch.MetricAlarm("privatealarm", {
 const test = new aws.lb.TargetGroup("test", {
     port: 80,
     protocol: "HTTP",
-    vpcId: aws.vpc.myvpc.id,});
+    vpcId: aws.vpc.Privatevpc.id,});
 
 // Create a Application LoadBalancer for the Private Instance
 const LoadBalancer = new aws.lb.LoadBalancer("application", {
