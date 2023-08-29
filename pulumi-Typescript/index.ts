@@ -12,6 +12,7 @@ import * as aws from "@pulumi/aws";
 const Publicvpc = new aws.ec2.Vpc("publicvpc", {
     cidrBlock: "192.168.0.0/16"});
 
+// Create a Private Vpc
 const Privatevpc = new aws.ec2.Vpc("privatevpc", {
     cidrBlock: "10.1.0.0/16"});
 
