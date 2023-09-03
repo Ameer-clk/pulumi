@@ -82,14 +82,13 @@ const publicsecuirtygroup = new aws.ec2.SecurityGroup("publicsg", {
         fromPort: 22,
         toPort: 22,
         protocol: "tcp",
-        cidrBlocks: ["0.0.0.0/0"],
+        cidrBlocks: ["10.1.10.1/24"],
     }],
     egress: [{
         fromPort: 0,
         toPort: 0,
         protocol: "-1",
         cidrBlocks: ["0.0.0.0/0"],
-        ipv6CidrBlocks: ["::/0"],
     }],
     tags: {
         Name: "publicsg",
@@ -111,8 +110,7 @@ const privatesecuritygroup = new aws.ec2.SecurityGroup("privatesg", {
         fromPort: 0,
         toPort: 0,
         protocol: "-1",
-        cidrBlocks: ["0.0.0.0/0"],
-        ipv6CidrBlocks: ["::/0"],
+        cidrBlocks: ["192.168.10.1/24"],
     }],
     tags: {
         Name: "publicsg",
@@ -144,13 +142,13 @@ const publicebsAtt = new aws.ec2.VolumeAttachment("publicebsAtt", {
 
 // Create a Private Instance and aslo creatig EBS Volume
 const privateweb = new aws.ec2.Instance("privateweb", {
-    ami: "ami-051f7e7f6c2f40dc1",
+    ami: "ami-053b0d53c279acc90",
     instanceType: "t2.micro",
     keyName: "minikube",
     vpcSecurityGroupIds: [aws.security.privatesg.id],
     subnetId: aws.subnet.privatesubnet.id,
     availabilityZone: "us-east-1b",
-    privateIp: "10.1.10.0/24",
+    privateIp: "10.1.10.1/24",
 });
 
 const privatevolume = new aws.ebs.Volume("privatevolume", { // Create an EBS Volume
