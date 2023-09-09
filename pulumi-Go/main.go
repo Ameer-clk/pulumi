@@ -1,5 +1,4 @@
 package main
-
 import (
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/s3"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -18,8 +17,6 @@ func main() {
 	}
 
 // Create a Subnet
-func main() {
-	pulumi.Run(func(ctx *pulumi.Context) error {
 		_, err := ec2.NewSubnet(ctx, "main", &ec2.SubnetArgs{
 			VpcId:     pulumi.Any(aws_vpc.myvpc.Id),
 			CidrBlock: pulumi.String("10.1.10.0/24"),
